@@ -1,9 +1,11 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import backIcon from '../../assets/icons/light/back-th2.svg'
+import axios from "axios";
 
 const ContentContainer = styled.div`
-  width: 350px;
+  width: 100%;
+  max-width: 640px;
   height: 100vh;
   background-color: #F5F5F5;
 `;
@@ -29,13 +31,19 @@ const Header = styled.div`
     }
   }
 `;
-
 const Content = styled.div`
   width: 100%;
   height: calc(100vh - 70px);
-  padding: 20px;
+  padding: 10px;
   background-color: white;
   border-radius: 30px;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .box-container {
     width: 100%;
@@ -50,6 +58,11 @@ const Content = styled.div`
       justify-content: space-between;
       align-items: center;
       height: 40px;
+
+      .date {
+        direction: ltr;
+        padding: 0 10px;
+      }
 
       &:first-child {
         border-bottom: 1px solid lightgray;
@@ -66,13 +79,24 @@ const Content = styled.div`
         padding-top: 10px;
       }
 
-      button {
+      .details {
         color: purple;
         font-size: 0.9rem;
         background-color: white;
         padding: 5px 30px;
         border: 1px solid purple;
-        border-radius: 10px
+        border-radius: 10px;
+        font-family: 'Vazir';
+      }
+
+      .failed {
+        color: darkred;
+        font-size: 0.7rem;
+        background-color: white;
+        padding: 2px 8px;
+        border: 1px solid darkred;
+        border-radius: 5px;
+        font-family: 'Vazir';
       }
     }
 
@@ -86,15 +110,46 @@ const Content = styled.div`
       right: 0;
       width: 5px;
       height: 30px;
-      background-color: red;
       transform: translate(0, -50%);
       border-radius: 5px 0 0 5px;
+    }
+
+    .bg-red {
+      background-color: darkred;
+    }
+
+    .bg-green {
+      background-color: green;
     }
   }
 `;
 
 function Transactions() {
-
+    const [data, setData] = useState([])
+    const getData = async () => {
+        await axios.get('src/json/data.json').then((response) => {
+            setData(response.data.Data)
+        })
+    }
+    const TransactionsItems = data.map((item) => <div className="box-container">
+        <div className="text-container">
+            <div className="font-bold">{item.TypeName}</div>
+            {item.IsPay
+                ? <button className="failed">ناموفق</button>
+                : <div><span>کد پیگیری:</span><span>8888888888</span></div>
+            }
+        </div>
+        <div className="text-container">
+            <div><span className="font-bold">{item.Price}</span><span> تومان</span></div>
+            <div className="date">{item.Date}</div>
+            <button className="details">جزییات</button>
+        </div>
+        <div className={"badge " + (item.IsPay ? "bg-red" : "bg-green")}>
+        </div>
+    </div>);
+    useEffect(() => {
+        getData()
+    }, [])
     return (
         <ContentContainer>
             <Header>
@@ -102,20 +157,7 @@ function Transactions() {
                 <div className="back-icon-container"><img src={backIcon} alt=""/></div>
             </Header>
             <Content>
-                <div className="box-container">
-                    <div className="text-container">
-                        <div className="font-bold">خرید شارژ ایرانسل</div>
-                        <div><span>کد پیگیری:</span><span>8888888888</span></div>
-                    </div>
-                    <div className="text-container">
-                        <div><span className="font-bold">250000</span><span> تومان</span></div>
-                        <div>1404/12/18</div>
-                        <button>جزییات</button>
-                    </div>
-                    <div className="badge">
-
-                    </div>
-                </div>
+                {TransactionsItems}
             </Content>
         </ContentContainer>
     )
