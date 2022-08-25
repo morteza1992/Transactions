@@ -7,6 +7,8 @@ import sortLight from '../../assets/icons/light/Sort.svg'
 import sortDark from '../../assets/icons/dark/Sort.svg'
 import closeLight from '../../assets/icons/closeLight.png'
 import closeDark from '../../assets/icons/closeDark.png'
+import infoDark from '../../assets/icons/dark/info.svg'
+import infoLight from '../../assets/icons/light/info.svg'
 import Sort from './partials/Sort'
 import Filter from "./partials/Filter";
 import Details from "./partials/Details";
@@ -39,7 +41,7 @@ function Transactions() {
     const [failedPay, setFailedPay] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
     const [isPay, setIsPay] = useState(false)
-    const [darkMode, setDarkMode] = useState(true)
+    const [darkMode, setDarkMode] = useState(false)
     const getData = async () => {
         await axios.get('src/json/data.json').then((response) => {
             setData(response.data.Data)
@@ -111,15 +113,24 @@ function Transactions() {
     }
 
     return (
-        <ContentContainer darkMode>
-            <Header className={(showSort || showFilter ? 'blur' : '') + (darkMode ? 'dark-mode-light' : '')}>
-                <div>تراکنش‌ها</div>
-                <div className="back-icon-container"><img src={darkMode ? backDark : backLight} alt=""/></div>
+        <ContentContainer darkMode={darkMode}>
+            <Header className={(showSort || showFilter ? 'blur ' : '') + (darkMode ? 'dark-mode-light' : '')}>
+                <div className="info">
+                    <span>راهنما</span>
+                    <img src={darkMode ? infoDark : infoLight} alt=""/>
+                </div>
+                <div className="main-title">تراکنش‌ها</div>
+                <div>
+                    <img src={darkMode ? backDark : backLight} alt=""/>
+                    <div className="dark-mode-switcher" onClick={() => setDarkMode(!darkMode)}>
+                        <div className={"switch " + (darkMode ? 'dark' : 'light')}></div>
+                    </div>
+                </div>
             </Header>
             <Content className={(showSort || showFilter ? 'blur ' : '') + (darkMode ? 'dark-mode' : '')}>
                 {TransactionsItems}
             </Content>
-            <FilterAndSort darkMode>
+            <FilterAndSort darkMode={darkMode}>
                 <div className={"section-container " + (darkMode ? 'dark-mode-light' : '')}>
                     <div className="section" onClick={() => setShowFilter(true)}>
                         <img src={darkMode ? filterDark : filterLight} alt=""/>

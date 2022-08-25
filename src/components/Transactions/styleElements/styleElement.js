@@ -12,6 +12,12 @@ export const ContentContainer = styled.div`
   ${props => props.darkMode && css`
     background-color: #363636 !important;
     color: white !important;
+
+    .dark-mode-switcher {
+      justify-content: flex-end !important;
+      background-color: white !important;
+    }
+
   `}
   .dark-mode {
     background-color: #202020 !important;
@@ -21,11 +27,23 @@ export const ContentContainer = styled.div`
       background-color: #202020 !important;
       color: white !important;
     }
+
+    .details-container {
+      background-color: #303030 !important;
+
+      .content {
+        background-color: #334647 !important;
+      }
+    }
   }
 
   .dark-mode-light {
     background-color: #363636 !important;
     color: white !important;
+
+    .main-title {
+      color: white !important;
+    }
   }
 
   .blur {
@@ -92,11 +110,11 @@ export const ContentContainer = styled.div`
       }
 
       .close {
-        width: 18px;
-        height: 18px;
+        width: 23px;
+        height: 23px;
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 17px;
+        right: 17px;
         cursor: pointer;
       }
 
@@ -136,28 +154,65 @@ export const Header = styled.div`
   width: 100%;
   height: 70px;
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
-  justify-content: center;
-  color: #5439AC;
-  font-weight: bold;
-  position: relative;
+  justify-content: space-between;
 
-  .back-icon-container {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translate(0, -50%);
+  div {
+    width: 33.33333%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    img {
-      width: 20px;
-      transform: rotate(180deg);
+    &:nth-child(1) {
+      justify-content: flex-end;
+      font-size: 0.7rem;
+
+      img {
+        width: 18px;
+        margin: 0 5px 0 20px;
+      }
     }
+
+    &:nth-child(3) {
+      justify-content: flex-start;
+
+      .dark-mode-switcher {
+        width: 30px;
+        height: 15px;
+        border: 1px solid #6e6e6e;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        justify-content: flex-start;
+        cursor: pointer;
+
+        .switch {
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          background-color: #6e6e6e;
+        }
+      }
+
+      img {
+        width: 20px;
+        transform: rotate(180deg);
+        margin: 0 20px 0 0;
+      }
+    }
+  }
+
+  .main-title {
+    font-weight: bold;
+    color: #5439AC;
   }
 `;
 export const Content = styled.div`
   width: 100%;
   height: calc(100vh - 140px);
-  padding: 10px;
+  padding: 15px;
   background-color: white;
   border-radius: 30px 30px 0 0;
   overflow-y: auto;
@@ -318,7 +373,7 @@ export const WrapperContainer = styled.div`
   }
 
   .filter-container {
-    height: calc(100vh - 130px);
+    height: calc(100vh - 170px);
 
     .box-title {
       width: 100%;
@@ -372,7 +427,7 @@ export const WrapperContainer = styled.div`
     }
 
     .selected-filter-button {
-      background-color: #5439AC;
+      background-color: #5439AC !important;
       color: white;
     }
   }
