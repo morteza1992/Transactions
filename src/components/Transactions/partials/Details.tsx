@@ -1,7 +1,11 @@
 import YesLight from "../../../assets/icons/light/Yes.svg";
 import NoLight from "../../../assets/icons/light/No.svg";
 
-function Details({successPay, failedPay, selectedItem}) {
+function Details({
+                     successPay,
+                     failedPay,
+                     selectedItem
+                 }: { successPay: Boolean, failedPay: Boolean, selectedItem: any }) {
     return (
         <>
             <div className="section-title">

@@ -16,7 +16,7 @@ import axios from "axios";
 import {ContentContainer, Header, Content, FilterAndSort, WrapperContainer} from './styleElements/styleElement'
 
 
-function Wrapper({children, close, darkMode}) {
+function Wrapper({children, close, darkMode}: { children: any, close: any, darkMode: Boolean }) {
     return (
         <WrapperContainer className="section-content">
             <div className={"content-container " + (darkMode ? 'dark-mode' : '')}>
@@ -34,21 +34,21 @@ function Transactions() {
     const [data, setData] = useState([])
     const [filterData, setFilterData] = useState([])
     const [showSort, setShowSort] = useState(false)
-    const [sortType, setSortType] = useState(null)
+    const [sortType, setSortType] = useState('')
     const [showFilter, setShowFilter] = useState(false)
     const [filterType, setFilterType] = useState('addFilter')
     const [successPay, setSuccessPay] = useState(false)
     const [failedPay, setFailedPay] = useState(false)
-    const [selectedItem, setSelectedItem] = useState(null)
+    const [selectedItem, setSelectedItem] = useState({})
     const [isPay, setIsPay] = useState(false)
-    const [darkMode, setDarkMode] = useState(false)
+    const [darkMode, setDarkMode] = useState<Boolean>(false)
     const getData = async () => {
         await axios.get('src/json/data.json').then((response) => {
             setData(response.data.Data)
             setFilterData(response.data.Data)
         })
     }
-    const TransactionsItems = filterData.map((item, index) => <div className="box-container" key={index}>
+    const TransactionsItems = filterData.map((item: any, index) => <div className="box-container" key={index}>
         <div className="text-container">
             <div className="font-bold">{item.TypeName}</div>
             {item.IsPay
@@ -66,7 +66,12 @@ function Transactions() {
     </div>);
 
     useEffect(() => {
-        getData()
+        try {
+            getData()
+        } catch (error) {
+
+        }
+
     }, [])
 
     function close() {
@@ -79,18 +84,20 @@ function Transactions() {
     function handleSort(value: any) {
         setSortType(value)
         if (value === 'date') {
-            setFilterData(filterData.sort(function (a, b) {
+            setFilterData(filterData.sort(function (a: any, b: any) {
                 if (b.Date && a.Date) {
                     return parseFloat(b.Date.split(' ')[0].replaceAll('/', '')) - parseFloat(a.Date.split(' ')[0].replaceAll('/', ''));
+                } else {
+                    return 0
                 }
 
             }))
         } else if (value === 'max') {
-            setFilterData(filterData.sort(function (a, b) {
+            setFilterData(filterData.sort(function (a: any, b: any) {
                 return parseFloat(b.Price) - parseFloat(a.Price);
             }))
         } else if (value === 'min') {
-            setFilterData(filterData.sort(function (a, b) {
+            setFilterData(filterData.sort(function (a: any, b: any) {
                 return parseFloat(a.Price) - parseFloat(b.Price);
             }))
         }
@@ -100,7 +107,7 @@ function Transactions() {
     function handleFilter(value: any) {
         setFilterType(value)
         if (value === 'addFilter') {
-            setFilterData(isPay ? data.filter(x => !x.IsPay) : data.filter(x => x.IsPay))
+            setFilterData(isPay ? data.filter((x: any) => !x.IsPay) : data.filter((x: any) => x.IsPay))
         } else if (value === 'cancelAll') {
             setFilterData(data)
         }
@@ -113,50 +120,56 @@ function Transactions() {
     }
 
     return (
-        <ContentContainer darkMode={darkMode}>
-            <Header className={(showSort || showFilter ? 'blur ' : '') + (darkMode ? 'dark-mode-light' : '')}>
-                <div className="info">
-                    <span>راهنما</span>
-                    <img src={darkMode ? infoDark : infoLight} alt=""/>
-                </div>
-                <div className="main-title">تراکنش‌ها</div>
-                <div>
-                    <img src={darkMode ? backDark : backLight} alt=""/>
-                    <div className="dark-mode-switcher" onClick={() => setDarkMode(!darkMode)}>
-                        <div className={"switch " + (darkMode ? 'dark' : 'light')}></div>
+        <ContentContainer>
+            <div className={"contentContainer " + (darkMode ? 'dark-mode-light' : '')}>
+                <Header className={(showSort || showFilter ? 'blur ' : '') + (darkMode ? 'dark-mode-light' : '')}>
+                    <div className="info">
+                        <span>راهنما</span>
+                        <img src={darkMode ? infoDark : infoLight} alt=""/>
                     </div>
-                </div>
-            </Header>
-            <Content className={(showSort || showFilter ? 'blur ' : '') + (darkMode ? 'dark-mode' : '')}>
-                {TransactionsItems}
-            </Content>
-            <FilterAndSort darkMode={darkMode}>
-                <div className={"section-container " + (darkMode ? 'dark-mode-light' : '')}>
-                    <div className="section" onClick={() => setShowFilter(true)}>
-                        <img src={darkMode ? filterDark : filterLight} alt=""/>
-                        <span>فیلتر</span>
+                    <div className="main-title">تراکنش‌ها</div>
+                    <div>
+                        <img src={darkMode ? backDark : backLight} alt=""/>
+                        <div className="dark-mode-switcher" onClick={() => setDarkMode(!darkMode)}>
+                            <div className={"switch " + (darkMode ? 'dark' : 'light')}>
+
+                            </div>
+                        </div>
                     </div>
-                    <div className="section" onClick={() => setShowSort(true)}>
-                        <img src={darkMode ? sortDark : sortLight} alt=""/>
-                        <span>مرتب سازی</span>
+                </Header>
+                <Content className={(showSort || showFilter ? 'blur ' : '') + (darkMode ? 'dark-mode' : '')}>
+                    {TransactionsItems}
+                </Content>
+                <FilterAndSort>
+                    <div className={"filterAndSort " + (darkMode ? 'dark-mode' : '')}>
+                        <div className={"section-container " + (darkMode ? 'dark-mode-light' : '')}>
+                            <div className="section" onClick={() => setShowFilter(true)}>
+                                <img src={darkMode ? filterDark : filterLight} alt=""/>
+                                <span>فیلتر</span>
+                            </div>
+                            <div className="section" onClick={() => setShowSort(true)}>
+                                <img src={darkMode ? sortDark : sortLight} alt=""/>
+                                <span>مرتب سازی</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </FilterAndSort>
-            {showSort &&
-                <Wrapper close={close} darkMode={darkMode}>
-                    <Sort handleSort={handleSort} sortType={sortType}/>
-                </Wrapper>
-            }
-            {showFilter &&
-                <Wrapper close={close} darkMode={darkMode}>
-                    <Filter setIsPay={setIsPay} isPay={isPay} filterType={filterType} handleFilter={handleFilter}/>
-                </Wrapper>
-            }
-            {(successPay || failedPay) &&
-                <Wrapper close={close} darkMode={darkMode}>
-                    <Details successPay={successPay} failedPay={failedPay} selectedItem={selectedItem}/>
-                </Wrapper>
-            }
+                </FilterAndSort>
+                {showSort &&
+                    <Wrapper close={close} darkMode={darkMode}>
+                        <Sort handleSort={handleSort} sortType={sortType}/>
+                    </Wrapper>
+                }
+                {showFilter &&
+                    <Wrapper close={close} darkMode={darkMode}>
+                        <Filter setIsPay={setIsPay} isPay={isPay} filterType={filterType} handleFilter={handleFilter}/>
+                    </Wrapper>
+                }
+                {(successPay || failedPay) &&
+                    <Wrapper close={close} darkMode={darkMode}>
+                        <Details successPay={successPay} failedPay={failedPay} selectedItem={selectedItem}/>
+                    </Wrapper>
+                }
+            </div>
         </ContentContainer>
     )
 }

@@ -1,4 +1,4 @@
-function Sort({handleSort, sortType}) {
+function Sort({handleSort, sortType}: { handleSort: any, sortType: String }) {
     return (
         <>
             <div className="section-title">

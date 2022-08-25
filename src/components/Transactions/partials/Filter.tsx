@@ -1,7 +1,12 @@
 import YesLight from "../../../assets/icons/light/Yes.svg";
 import NoLight from "../../../assets/icons/light/No.svg";
 
-function Filter({setIsPay, isPay, filterType, handleFilter}) {
+function Filter({
+                    setIsPay,
+                    isPay,
+                    filterType,
+                    handleFilter
+                }: { setIsPay: any, isPay: Boolean, filterType: String, handleFilter: any }) {
     return (
         <>
             <div className="section-title">

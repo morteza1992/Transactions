@@ -1,24 +1,6 @@
 import styled, {css} from "styled-components";
 
 export const ContentContainer = styled.div`
-  width: 100%;
-  max-width: 640px;
-  min-width: 300px;
-  height: 100vh;
-  background-color: #F5F5F5;
-  position: relative;
-  color: #6e6e6e;
-
-  ${props => props.darkMode && css`
-    background-color: #363636 !important;
-    color: white !important;
-
-    .dark-mode-switcher {
-      justify-content: flex-end !important;
-      background-color: white !important;
-    }
-
-  `}
   .dark-mode {
     background-color: #202020 !important;
     color: white !important;
@@ -44,109 +26,124 @@ export const ContentContainer = styled.div`
     .main-title {
       color: white !important;
     }
+
+    .dark-mode-switcher {
+      justify-content: flex-end !important;
+      background-color: white !important;
+    }
   }
 
-  .blur {
-    filter: blur(2px);
-  }
-
-  .section-content {
+  .contentContainer {
     width: 100%;
-    height: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    max-width: 640px;
+    min-width: 300px;
+    height: 100vh;
+    background-color: #F5F5F5;
+    position: relative;
+    color: #6e6e6e;
 
-    &:before {
-      content: '';
-      width: 100%;
-      height: 100%;
-      background-color: #0000003b;
-      position: absolute;
-      top: 0;
-      left: 0;
+
+    .blur {
+      filter: blur(2px);
     }
 
-    .content-container {
+    .section-content {
       width: 100%;
-      height: fit-content;
-      background-color: white;
-      padding: 20px;
+      height: 100%;
       position: absolute;
       bottom: 0;
       left: 0;
-      z-index: 9;
-      border-radius: 30px 30px 0 0;
-      font-size: 0.7rem;
 
-      .section-title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 0;
+      &:before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background-color: #0000003b;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .content-container {
+        width: 100%;
+        height: fit-content;
+        background-color: white;
+        padding: 20px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 9;
+        border-radius: 30px 30px 0 0;
         font-size: 0.7rem;
 
-        &:after {
-          content: '';
-          position: absolute;
-          top: 8px;
-          left: 50%;
-          transform: translate(-50%, 0);
-          width: 50px;
-          height: 4px;
-          background-color: #c9c9c9;
-          border-radius: 5px;
+        .section-title {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 10px 0;
+          font-size: 0.7rem;
+
+          &:after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 50px;
+            height: 4px;
+            background-color: #c9c9c9;
+            border-radius: 5px;
+          }
+
+          .title-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+              margin-right: 5px;
+            }
+          }
         }
 
-        .title-text {
+        .close {
+          width: 23px;
+          height: 23px;
+          position: absolute;
+          top: 17px;
+          right: 17px;
+          cursor: pointer;
+        }
+
+        .details-container {
           display: flex;
           align-items: center;
           justify-content: center;
-
-          img {
-            margin-right: 5px;
-          }
-        }
-      }
-
-      .close {
-        width: 23px;
-        height: 23px;
-        position: absolute;
-        top: 17px;
-        right: 17px;
-        cursor: pointer;
-      }
-
-      .details-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: fit-content;
-        background-color: #F4F4FA;
-        padding: 15px;
-        border-radius: 15px;
-        font-size: 0.7rem;
-        margin-top: 10px;
-
-        .content {
-          background-color: #F6DEE5;
-          border-radius: 20px;
-          padding: 10px;
           width: 100%;
+          height: fit-content;
+          background-color: #F4F4FA;
+          padding: 15px;
+          border-radius: 15px;
+          font-size: 0.7rem;
+          margin-top: 10px;
 
-          .row {
+          .content {
+            background-color: #F6DEE5;
+            border-radius: 20px;
+            padding: 10px;
             width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.7rem;
+
+            .row {
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-size: 0.7rem;
+            }
           }
         }
       }
     }
-
   }
 
 `;
@@ -217,7 +214,6 @@ export const Content = styled.div`
   border-radius: 30px 30px 0 0;
   overflow-y: auto;
   -ms-overflow-style: none;
-  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
@@ -309,36 +305,35 @@ export const Content = styled.div`
   }
 `;
 export const FilterAndSort = styled.div`
-  width: 100%;
-  height: 70px;
-  background-color: white;
-
-  ${props => props.darkMode && css`
-    background-color: #202020 !important;
-    color: white !important;
-  `}
-  .section-container {
+  .filterAndSort {
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 30px 30px 0 0;
-    background-color: #F5F5F5;
+    height: 70px;
+    background-color: white;
 
-    .section {
-      width: 50%;
+    .section-container {
+      width: 100%;
+      height: 100%;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
-      cursor: pointer;
+      align-items: center;
+      border-radius: 30px 30px 0 0;
+      background-color: #F5F5F5;
 
-      &:first-child {
-        border-left: 1px solid #b1b1b1;
+      .section {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        cursor: pointer;
+
+        &:first-child {
+          border-left: 1px solid #b1b1b1;
+        }
       }
     }
-  }`;
+  }
+`;
 export const WrapperContainer = styled.div`
   .row {
     display: flex;
