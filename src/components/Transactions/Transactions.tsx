@@ -1,8 +1,12 @@
 import {useState, useEffect} from 'react'
 import backLight from '../../assets/icons/light/back-th2.svg'
+import backDark from '../../assets/icons/dark/back-th2.svg'
 import filterLight from '../../assets/icons/light/Filter.svg'
+import filterDark from '../../assets/icons/dark/Filter.svg'
 import sortLight from '../../assets/icons/light/Sort.svg'
-import closeIcon from '../../assets/icons/close-icon.png'
+import sortDark from '../../assets/icons/dark/Sort.svg'
+import closeLight from '../../assets/icons/closeLight.png'
+import closeDark from '../../assets/icons/closeDark.png'
 import Sort from './partials/Sort'
 import Filter from "./partials/Filter";
 import Details from "./partials/Details";
@@ -10,12 +14,12 @@ import axios from "axios";
 import {ContentContainer, Header, Content, FilterAndSort, WrapperContainer} from './styleElements/styleElement'
 
 
-function Wrapper({children, close}) {
+function Wrapper({children, close, darkMode}) {
     return (
         <WrapperContainer className="section-content">
-            <div className="content-container">
+            <div className={"content-container " + (darkMode ? 'dark-mode' : '')}>
                 <img className="close"
-                     src={closeIcon}
+                     src={darkMode ? closeDark : closeLight}
                      onClick={() => close()}
                      alt=""/>
                 {children}
@@ -35,6 +39,7 @@ function Transactions() {
     const [failedPay, setFailedPay] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
     const [isPay, setIsPay] = useState(false)
+    const [darkMode, setDarkMode] = useState(true)
     const getData = async () => {
         await axios.get('src/json/data.json').then((response) => {
             setData(response.data.Data)
@@ -106,38 +111,38 @@ function Transactions() {
     }
 
     return (
-        <ContentContainer>
-            <Header className={showSort || showFilter ? 'blur' : ''}>
+        <ContentContainer darkMode>
+            <Header className={(showSort || showFilter ? 'blur' : '') + (darkMode ? 'dark-mode-light' : '')}>
                 <div>تراکنش‌ها</div>
-                <div className="back-icon-container"><img src={backLight} alt=""/></div>
+                <div className="back-icon-container"><img src={darkMode ? backDark : backLight} alt=""/></div>
             </Header>
-            <Content className={showSort || showFilter ? 'blur' : ''}>
+            <Content className={(showSort || showFilter ? 'blur ' : '') + (darkMode ? 'dark-mode' : '')}>
                 {TransactionsItems}
             </Content>
-            <FilterAndSort>
-                <div className="section-container">
+            <FilterAndSort darkMode>
+                <div className={"section-container " + (darkMode ? 'dark-mode-light' : '')}>
                     <div className="section" onClick={() => setShowFilter(true)}>
-                        <img src={filterLight} alt=""/>
+                        <img src={darkMode ? filterDark : filterLight} alt=""/>
                         <span>فیلتر</span>
                     </div>
                     <div className="section" onClick={() => setShowSort(true)}>
-                        <img src={sortLight} alt=""/>
+                        <img src={darkMode ? sortDark : sortLight} alt=""/>
                         <span>مرتب سازی</span>
                     </div>
                 </div>
             </FilterAndSort>
             {showSort &&
-                <Wrapper close={close}>
+                <Wrapper close={close} darkMode={darkMode}>
                     <Sort handleSort={handleSort} sortType={sortType}/>
                 </Wrapper>
             }
             {showFilter &&
-                <Wrapper close={close}>
+                <Wrapper close={close} darkMode={darkMode}>
                     <Filter setIsPay={setIsPay} isPay={isPay} filterType={filterType} handleFilter={handleFilter}/>
                 </Wrapper>
             }
             {(successPay || failedPay) &&
-                <Wrapper close={close}>
+                <Wrapper close={close} darkMode={darkMode}>
                     <Details successPay={successPay} failedPay={failedPay} selectedItem={selectedItem}/>
                 </Wrapper>
             }

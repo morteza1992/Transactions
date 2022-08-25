@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 export const ContentContainer = styled.div`
   width: 100%;
@@ -8,6 +8,25 @@ export const ContentContainer = styled.div`
   background-color: #F5F5F5;
   position: relative;
   color: #6e6e6e;
+
+  ${props => props.darkMode && css`
+    background-color: #363636 !important;
+    color: white !important;
+  `}
+  .dark-mode {
+    background-color: #202020 !important;
+    color: white !important;
+
+    button {
+      background-color: #202020 !important;
+      color: white !important;
+    }
+  }
+
+  .dark-mode-light {
+    background-color: #363636 !important;
+    color: white !important;
+  }
 
   .blur {
     filter: blur(2px);
@@ -189,11 +208,15 @@ export const Content = styled.div`
         font-size: 0.7rem;
         font-weight: bold;
         background-color: white;
-        padding: 5px 30px;
+        padding: 3px 30px;
         border: 1px solid purple;
-        border-radius: 10px;
+        border-radius: 15px;
         font-family: 'Vazir';
         cursor: pointer;
+
+        :hover {
+          background-color: lightgray;
+        }
       }
 
       .failed {
@@ -235,6 +258,10 @@ export const FilterAndSort = styled.div`
   height: 70px;
   background-color: white;
 
+  ${props => props.darkMode && css`
+    background-color: #202020 !important;
+    color: white !important;
+  `}
   .section-container {
     width: 100%;
     height: 100%;
